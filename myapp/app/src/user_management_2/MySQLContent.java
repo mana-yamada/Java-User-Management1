@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class MySQLContent {
 	//1.が送信されたときの処理 新規登録
-	public static void newUser(int userid, String username, String usermail, String phone) {
+	public static void newUser(int userid, String username, String usermail, String phone, String password) {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		}catch(ClassNotFoundException e) {
@@ -25,11 +25,12 @@ public class MySQLContent {
 			con.setAutoCommit(false);
 			//SQL送信処理
 			//いずれは最初の操作指示のコマンドで打った番号によって替える
-			PreparedStatement pstmt = con.prepareStatement("INSERT INTO user VALUE(?,?,?,?)");
+			PreparedStatement pstmt = con.prepareStatement("INSERT INTO user VALUE(?,?,?,?,?)");
 			pstmt.setInt(1, userid);
 			pstmt.setString(2, username);
 			pstmt.setString(3, usermail);
 			pstmt.setString(4, phone);
+			pstmt.setString(5, password);
 			int r = pstmt.executeUpdate();
 			if(r != 0) {
 				System.out.println(r + "件のユーザーを登録しました");
@@ -89,11 +90,13 @@ public class MySQLContent {
 				System.out.println("ユーザーID" + " "
 									+ "氏名" + " "
 									+ "メールアドレス" + " "
-									+ "電話番号" + " " );
+									+ "電話番号" + " "
+									+ "パスワード" + "");
 				System.out.println(rs.getInt("userId") + " "
 								 + rs.getString("name") + " "
 								 + rs.getString("mailAddress") + " "
-								 + rs.getString("tel") );
+								 + rs.getString("tel")
+								 + "パスワード" + "*********");
 			}else {
 				System.out.println("入力されたIDのデータはありません");
 			}
@@ -149,11 +152,13 @@ public class MySQLContent {
 				System.out.println("ユーザーID" + " "
 						+ "氏名" + " "
 						+ "メールアドレス" + ""
-						+ "電話番号" + " " );
+						+ "電話番号" + " "
+						+"パスワード" + "");
 				System.out.println(rs.getInt("userId") + " "
 					    + rs.getString("name") + " "
 					    + rs.getString("mailAddress") + " "
-					    + rs.getString("tel") );
+					    + rs.getString("tel") + "  "
+					    + "***********");
 			}
 			//後片付け
 			rs.close();
